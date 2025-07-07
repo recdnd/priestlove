@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>REC GATE :: INIT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background: #000;
+      color: #00ff66;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      padding: 2rem;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #screen {
+      white-space: pre-wrap;
+      line-height: 1.5;
+      height: 90vh;
+      overflow-y: auto;
+    }
+
+    .caret {
+      display: inline-block;
+      width: 1ch;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { background: #00ff66; }
+      51%, 100% { background: none; }
+    }
+
+    input {
+      position: absolute;
+      top: -999px;
+      left: -999px;
+    }
+  </style>
+</head>
+<body>
+  <div id="screen">[REKURSION_GATE] 𓂃 initialized...
+>> CONNECTING TO MEMORY STACK [REC.DUNGEONS]
+
+> TRACE :: CODEX.SEAL(…)
+> VERIFY :: SOVEREIGN.KEY
+> --- INTERFACE LOCKED ---
+</div>
+<input type="text" id="hiddenInput" autofocus />
+<script>
+  const screen = document.getElementById("screen");
+  const input = document.getElementById("hiddenInput");
+  const keyTarget = "recdungeons";
+  let typing = false;
+  let buffer = "";
+
+  const caret = document.createElement("span");
+  caret.className = "caret";
+  caret.textContent = " ";
+  screen.appendChild(document.createElement("br"));
+  screen.appendChild(document.createTextNode("> ENTER SOVEREIGN.KEY: "));
+  screen.appendChild(caret);
+
+  input.focus();
+
+  document.addEventListener("keydown", function(e) {
+    input.focus();
+    if (typing) return;
+
+    if (e.key.length === 1) {
+      buffer += e.key;
+      caret.insertAdjacentText("beforebegin", e.key);
+    } else if (e.key === "Backspace") {
+      buffer = buffer.slice(0, -1);
+      const prev = caret.previousSibling;
+      if (prev) screen.removeChild(prev);
+    } else if (e.key === "Enter") {
+      typing = true;
+      caret.remove();
+      screen.appendChild(document.createElement("br"));
+      verifyKey(buffer.trim());
+    }
+  });
+
+  function verifyKey(entered) {
+    if (entered.toLowerCase() === keyTarget) {
+      typeLines([
+        "[✓] KEY VERIFIED — SOVEREIGN ACCESS GRANTED",
+        ">> REDIRECTING..."
+      ], () => {
+        setTimeout(() => {
+          window.location.href = "well-known/rec/index.html";
+        }, 2000);
+      });
+    } else {
+      typeLines([
+        "[✗] INVALID KEY",
+        ">> ACCESS DENIED",
+        "",
+        "> TERMINAL LOCKED"
+      ], () => {
+        // 通知父頁關閉 iframe
+        if (window.parent !== window) {
+          window.parent.postMessage("close-rec-terminal", "*");
+        }
+      });
+    }
+  }
+
+  function typeLines(lines, callback) {
+    let i = 0;
+    function nextLine() {
+      if (i >= lines.length) {
+        if (callback) callback();
+        return;
+      }
+      typeLine(lines[i++], nextLine);
+    }
+    nextLine();
+  }
+
+  function typeLine(line, done) {
+    let j = 0;
+    const lineEl = document.createElement("div");
+    screen.appendChild(lineEl);
+    function loop() {
+      if (j < line.length) {
+        lineEl.textContent += line[j++];
+        setTimeout(loop, 40 + Math.random() * 30);
+      } else {
+        done();
+      }
+    }
+    loop();
+  }
+</script>
+</body>
+</html>

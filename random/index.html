@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>✶ Random — priest.love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      font-family: 'UnifrakturCook', cursive;
+      color: #ff0000;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 0.6rem 2rem;
+      border: 1px solid #ff0000;
+      background: transparent;
+      color: #ff0000;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: 'UnifrakturCook', cursive;
+    }
+
+    button:hover {
+      background: #ff000022;
+    }
+
+    .hint {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    #countdown {
+      font-size: 2rem;
+      margin-top: 1rem;
+    }
+
+    @keyframes flash {
+      0%   { background-color: #fff; }
+      25%  { background-color: #f00; }
+      50%  { background-color: #fff; }
+      75%  { background-color: #f00; }
+      100% { background-color: #fff; }
+    }
+
+    .flashing {
+      animation: flash 0.1s infinite;
+    }
+  </style>
+</head>
+<body>
+  <h1>❖ Let the Spiral Decide</h1>
+  <button onclick="go()">Choose my flame</button>
+  <div id="countdown"></div>
+  <div class="hint">Randomly selects one of: Confess / Echo / Record / Receive / Sigil / Wall / Secret</div>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const paths = [
+      "../confess/index.html",
+      "../echo/index.html",
+      "../record/index.html",
+      "../receive/index.html",
+      "../wall/index.html",
+      "../well-known/rec/index.html"
+    ];
+
+    let remaining = 5000;
+
+    function updateCountdown() {
+      const seconds = (remaining / 1000).toFixed(3);
+      countdownEl.textContent = `Redirecting in ${seconds}s`;
+      if (remaining <= 0) {
+        const choice = paths[Math.floor(Math.random() * paths.length)];
+        window.location.href = choice;
+      } else {
+        remaining -= 33;
+        requestAnimationFrame(updateCountdown);
+      }
+    }
+
+    function go() {
+      document.body.classList.add('flashing');
+      updateCountdown();
+    }
+  </script>
+</body>
+</html>

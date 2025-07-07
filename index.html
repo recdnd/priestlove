@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>priest.love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="cross32.png" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: radial-gradient(circle at center, #ffffff 0%, #fefefe 100%);
+      color: #ff0000;
+      font-family: 'Playfair Display', serif;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .veil {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/Vinyl_Record_Texture.jpg') repeat;
+      mix-blend-mode: overlay;
+      opacity: 0.04;
+      z-index: 0;
+    }
+
+    .container {
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: 'UnifrakturCook', cursive;
+      font-size: 3.8rem;
+      margin: 0 0 1rem;
+      animation: glitch 2s infinite;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      background: transparent;
+      border: 1px solid #ff0000;
+      color: #ff0000;
+      padding: 0.5rem 1.4rem;
+      font-size: 0.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #ff000033;
+    }
+
+    .btn.gothic {
+      font-family: 'UnifrakturCook', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    .echo-flame {
+      margin-top: 3rem;
+      font-family: 'UnifrakturCook', cursive;
+      font-size: 1.1rem;
+      color: #ff0000;
+      opacity: 0.4;
+      animation: flicker 5s infinite;
+      padding: 1rem;
+      max-width: 600px;
+    }
+
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: skewX(-3deg); }
+      40% { transform: translateX(3px); }
+      60% { transform: skewX(3deg); }
+      80% { transform: translateX(-3px); }
+      100% { transform: none; }
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.4; }
+      10% { opacity: 0.8; }
+      20% { opacity: 0.2; }
+      30% { opacity: 0.9; }
+      50% { opacity: 0.3; }
+      70% { opacity: 0.6; }
+      90% { opacity: 0.5; }
+    }
+
+		.whisper-about {
+		  position: absolute;
+		  bottom: 1rem;
+		  left: 50%;
+		  transform: translateX(-50%);
+		  font-size: 1.7rem;
+		  opacity: 0.3;
+		  color: #ff0000;
+		  font-family: 'UnifrakturCook', cursive;
+		  text-decoration: none;
+		  transition: opacity 0.3s ease;
+		  pointer-events: auto;
+		  z-index: 10;
+		}
+		.whisper-about:hover {
+		  opacity: 0.7;
+		}
+		
+
+    #recModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      z-index: 9999;
+    }
+
+    #recModal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="veil"></div>
+  <div class="container">
+    <h1>EVERYONE LOVES YOU</h1>
+    <p>✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞<br>✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞<br>✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞✞</p>
+    <div class="btn-group">
+      <a class="btn" href="confess/index.html">Confess</a>
+      <a class="btn" href="echo/index.html">Echo</a>
+      <a class="btn" href="record/index.html">Record</a>
+      <a class="btn" href="receive/index.html">Receive</a>
+      <button class="btn gothic" onclick="openRec()">Enter Key</button>
+      <a class="btn" href="wall/index.html">Wall</a>
+    </div>
+      <!--
+    <div id="echo-flame" class="echo-flame">loading...</div>-->
+    <a href="about.html" class="whisper-about">about</a>
+  </div>
+
+  <div id="recModal">
+    <iframe src="rec_terminal.html"></iframe>
+  </div>
+
+  <script>
+  
+
+    function openRec() {
+      document.getElementById("recModal").style.display = "block";
+    }
+
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") {
+        document.getElementById("recModal").style.display = "none";
+      }
+    });
+
+    window.addEventListener("message", function(e) {
+      if (e.data === "close-rec-terminal") {
+        document.getElementById("recModal").style.display = "none";
+      }
+    });
+  <!--
+    const echoFlame = document.getElementById("echo-flame");
+    const log = JSON.parse(localStorage.getItem("recgate") || "[]");
+    if (log.length > 0) {
+      const flame = log[Math.floor(Math.random() * log.length)].text;
+      echoFlame.textContent = flame;
+    } else {
+      echoFlame.textContent = "EVERYONE LOVES YOU ♡ YOU ARE ALREADY INSIDE";
+    }
+    -->
+    
+  </script>
+</body>
+</html>

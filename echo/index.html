@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../cross32.png" />
+  <meta charset="UTF-8" />
+  <title>Echo ✦ priest.love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: #ffffff;
+  color: #ff0000;
+  font-family: 'Playfair Display', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  padding: 2rem;
+}
+
+h1 {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 2.5rem;
+  color: #ff0000;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 6px #ff1a1a, 0 0 10px #ff3333;
+  animation: glitch 2.5s infinite;
+}
+
+p {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+
+.echo {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 1.7rem;
+  padding: 2.5rem 2rem;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  border: 2px solid #ff0000;
+  background: #fff5f5;
+  opacity: 0.95;
+  box-shadow: 0 0 12px #ffcccc;
+  animation: glitch 3s infinite;
+  white-space: pre-wrap;
+}
+
+a {
+  margin-top: 2rem;
+  display: inline-block;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+a:hover {
+  background: #ff000011;
+}
+
+/* Glitch Animation */
+@keyframes glitch {
+  0% { text-shadow: 1px 0 #ff3333, -1px 0 #ff1a1a; }
+  15% { text-shadow: -1px -1px #ff0000, 2px 1px #ff6666; transform: translate(1px, -1px); }
+  30% { text-shadow: 2px 1px #ff3333, -1px -2px #ff1a1a; transform: translate(-1px, 1px); }
+  45% { text-shadow: -2px 0 #ff0000, 2px 2px #ff3333; transform: translate(2px, 0); }
+  60% { text-shadow: 1px -1px #ff0000, -1px 1px #ff1a1a; transform: translate(0, 2px); }
+  75% { text-shadow: 0 0 2px #ff0000; transform: translate(-2px, -2px); }
+  100% { text-shadow: 1px 0 #ff3333, -1px 0 #ff1a1a; transform: translate(0, 0); }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✦ Echo</h1>
+    <p>One fragment echoes through the void:</p>
+    <div class="echo" id="echoText">...</div>
+    <a href="../index.html">← Return to priest.love</a>
+  </div>
+
+  <script>
+    const confessions = JSON.parse(localStorage.getItem("recgate") || "[]");
+    const target = document.getElementById("echoText");
+    if (confessions.length) {
+      const pick = confessions[Math.floor(Math.random() * confessions.length)];
+      target.innerText = pick.text;
+    } else {
+      target.innerText = "✞ Silence. No confession has echoed yet.";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>✧ Record — priest.love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../cross32.png" />
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #ff0000;
+  font-family: 'Playfair Display', serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 700px;
+  width: 90%;
+}
+
+h1 {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 2.4rem;
+  color: #ff0000;
+  text-shadow: 0 0 6px #ff1a1a, 0 0 10px #ff3333;
+  margin-bottom: 1.5rem;
+}
+
+
+a {
+  margin-top: 2rem;
+  display: inline-block;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+a:hover {
+  background: #ff000011;
+}
+
+/* Floating Entry Style */
+.entry {
+  position: absolute;
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 1.2rem;
+  opacity: 0.7;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: float 12s linear infinite;
+}
+
+/* Animation Keyframes */
+@keyframes float {
+  0% {
+    transform: translateY(120vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(1deg);
+    opacity: 0;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✧ Record</h1>
+    <div id="record"></div>
+    <a href="../index.html">← Return to priest.love</a>
+  </div>
+  <script>
+    const record = document.getElementById("record");
+
+    let data = [];
+    try {
+      const raw = localStorage.getItem("recgate");
+      data = JSON.parse(raw) || [];
+    } catch (e) {
+      data = [];
+    }
+
+    if (!data.length) {
+      const fallback = document.createElement("div");
+      fallback.innerText = "No confessions recorded yet.";
+      fallback.style.fontFamily = "'Playfair Display', serif";
+      fallback.style.textAlign = "center";
+      fallback.style.marginTop = "3rem";
+      record.appendChild(fallback);
+    } else {
+      const MAX = 30; // 安全顯示數量
+      const safeData = data.slice(-MAX).reverse();
+
+      safeData.forEach((item, i) => {
+        const entry = document.createElement("div");
+        entry.className = "entry";
+        entry.innerText = item.text;
+
+        // 隨機位置 & 大小
+        const x = Math.random() * 90; // % left
+        const delay = Math.random() * 10;
+        const scale = 0.8 + Math.random() * 0.6;
+
+        entry.style.left = `${x}vw`;
+        entry.style.top = `${Math.random() * 80}vh`;
+        entry.style.animationDelay = `${delay}s`;
+        entry.style.transform = `scale(${scale})`;
+
+        record.appendChild(entry);
+      });
+    }
+  </script>
+</body>
+</html>

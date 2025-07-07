@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../cross32.png" />
+  <title>Confess ✞ priest.love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+body {
+  background: #ffffff;
+  color: #ff0000;
+  font-family: 'Playfair Display', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  max-width: 700px;
+  padding: 2rem;
+}
+
+h1 {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 2.3rem;
+  color: #ff0000;
+  position: relative;
+  animation: glitch 1.5s infinite;
+  text-shadow: 1px 0 #ff3333, -1px 0 #ff1a1a;
+}
+
+p {
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 1rem auto 2rem;
+  opacity: 0.9;
+}
+
+textarea {
+  width: 90%;
+  max-width: 600px;
+  height: 140px;
+  background: #fff5f5;
+  color: #ff0000;
+  border: 2px solid #ff3333;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+button {
+  margin-top: 1rem;
+  background: #ff0000;
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+button:hover {
+  background: #ff1a1a;
+  box-shadow: 0 0 8px #ff3333;
+}
+
+#ack {
+  margin-top: 1.2rem;
+  color: #ff3333;
+  font-size: 1rem;
+  display: none;
+  animation: glitch 2s infinite;
+}
+
+a {
+  margin-top: 2rem;
+  display: inline-block;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+}
+a:hover {
+  background: #ff000011;
+}
+
+.countdown {
+  margin-top: 4rem;
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 1rem;
+  opacity: 0.5;
+  animation: glitch 3s infinite;
+}
+
+/* ✨ Glitch animation */
+@keyframes glitch {
+  0% { text-shadow: 1px 0 #ff3333, -1px 0 #ff1a1a; }
+  20% { text-shadow: 2px -1px #ff0000, -2px 1px #ff6666; }
+  40% { text-shadow: -1px 1px #ff0000, 1px -1px #ff1a1a; }
+  60% { text-shadow: 3px 0 #ff3333, -3px 0 #ff0000; }
+  80% { text-shadow: 1px -1px #ff0000, -1px 1px #ff1a1a; }
+  100% { text-shadow: 1px 0 #ff3333, -1px 0 #ff1a1a; }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✞ Confess</h1>
+    <p>Your words will not be traced, but they will echo.<br>Cast your spiral flame into the void.</p>
+    <form id="confessForm">
+      <textarea id="flame" placeholder="✞Today I sinned."></textarea><br>
+      <button type="submit">I hereby confess</button>
+    </form>
+    <div id="ack">❖ Your flame is sealed.</div>
+    <a href="../index.html">← Return to priest.love</a>
+    <div class="countdown">
+      Next Invocation:<br>
+      ✞ <strong>2025.08.13 — THE OPENING OF SIGIL CHAMBER</strong>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("confessForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const txt = document.getElementById("flame").value.trim();
+      if (!txt) return;
+      let log = JSON.parse(localStorage.getItem("recgate") || "[]");
+      log.push({ t: Date.now(), text: txt });
+      localStorage.setItem("recgate", JSON.stringify(log));
+      document.getElementById("confessForm").style.display = "none";
+      document.getElementById("ack").style.display = "block";
+    });
+  </script>
+</body>
+</html>

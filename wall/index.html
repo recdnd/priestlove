@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../cross32.png" />
+  <meta charset="UTF-8" />
+  <title>Wall ✦ priest.love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #ff0000;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-family: 'UnifrakturCook', cursive;
+      font-size: 2.5rem;
+      color: #ff0000;
+      margin-bottom: 1rem;
+      animation: glitch 2s infinite;
+      text-shadow: 2px 0 #ff1a1a, -2px 0 #ff3333;
+    }
+
+    p {
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .entry {
+      margin: 1.2rem auto;
+      max-width: 700px;
+      font-size: 1.2rem;
+      color: #300;
+      background: none;
+      border: none;
+      padding: 0.4rem;
+      font-family: 'UnifrakturCook', cursive;
+      animation: flicker 4s infinite alternate;
+      text-shadow: 1px 1px 0 #ffcccc;
+    }
+
+		a {
+		  margin-top: 2rem;
+		  display: inline-block;
+		  font-size: 0.9rem;
+		  text-decoration: none;
+		  color: #ff0000;
+		  border: 1px solid #ff0000;
+		  padding: 0.4rem 1rem;
+		  border-radius: 999px;
+		  transition: all 0.3s ease;
+		}
+		a:hover {
+		  background: #ff000011;
+		}
+		
+
+    /* Glitch animation */
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: skewX(-3deg); }
+      40% { transform: translateX(3px); }
+      60% { transform: skewX(3deg); }
+      80% { transform: translateX(-3px); }
+      100% { transform: none; }
+    }
+
+    /* Flickering candle-like text */
+    @keyframes flicker {
+      0%   { opacity: 1; text-shadow: 0 0 2px #f88; }
+      50%  { opacity: 0.6; text-shadow: 0 0 6px #faa; }
+      100% { opacity: 1; text-shadow: 0 0 2px #f88; }
+    }
+
+    /* Shadow hover trail */
+    .entry:hover {
+      text-shadow: 3px 3px 0 #ff9999;
+      transition: text-shadow 0.3s ease;
+    }
+
+    #wall {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>♡ Wall</h1>
+  <p>Echoes left behind by others.</p>
+  <div id="wall"></div>
+  <a href="../index.html">← Return to priest.love</a>
+  <script>
+    const wall = document.getElementById("wall");
+    const log = JSON.parse(localStorage.getItem("recgate") || "[]");
+
+    function typeWriter(text, container) {
+      let i = 0;
+      const span = document.createElement('div');
+      span.className = 'entry';
+      container.appendChild(span);
+
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          span.textContent += text[i++];
+        } else {
+          clearInterval(interval);
+        }
+      }, 50); // 每 50ms 出現一個字
+    }
+
+    if (log.length > 0) {
+      const shuffled = log.sort(() => 0.5 - Math.random());
+      shuffled.slice(0, 5).forEach(item => {
+        typeWriter(item.text, wall);
+      });
+    } else {
+      const fallback = document.createElement('div');
+      fallback.className = 'entry';
+      fallback.textContent = " ♡ YOU ARE ALREADY INSIDE";
+      fallback.style.opacity = "0.2";
+      wall.appendChild(fallback);
+    }
+  </script>
+</body>
+</html>
